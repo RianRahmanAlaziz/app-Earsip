@@ -3,6 +3,8 @@ session_start();
 error_reporting(0);
 include 'layout/head.php';
 include '../connect/database.php';
+
+$role = isset($_SESSION['rl_user']) ? $_SESSION['rl_user'] : '';
 ?>
 
 <!-- Content Wrapper. Contains page content -->
@@ -66,8 +68,14 @@ include '../connect/database.php';
                   <a href="#" class="btn btn-xs btn-outline-secondary disabled">Hapus</i>
                   </a>
                 <?php } else { ?>
-                  <a href="#" class="btn btn-xs btn-outline-danger" onClick="konfirmasi('del_data.php?idbr=<?= $data->id_brankas; ?>');">Hapus</i>
-                  </a>
+                  <?php
+                  if ($role == 'Umum') {
+                  ?>
+                    <a href="#" class="btn btn-xs btn-outline-danger" onClick="konfirmasi('del_data.php?idbr=<?= $data->id_brankas; ?>');">Hapus</i>
+                    </a>
+                  <?php
+                  }
+                  ?>
                 <?php } ?>
                 <a href="files_brankas.php?brankas=<?= $data->id_brankas; ?>" class="btn btn-xs btn-outline-success">Buka Brankas</a>
               </div>
@@ -109,8 +117,210 @@ include '../connect/database.php';
                   <a href="#" class="btn btn-xs btn-outline-secondary disabled">Hapus</i>
                   </a>
                 <?php } else { ?>
-                  <a href="#" class="btn btn-xs btn-outline-danger" onClick="konfirmasi('del_data.php?idbr=<?= $data->id_brankas; ?>');">Hapus</i>
+                  <?php
+                  if ($role == 'Keuangan') {
+                  ?>
+                    <a href="#" class="btn btn-xs btn-outline-danger" onClick="konfirmasi('del_data.php?idbr=<?= $data->id_brankas; ?>');">Hapus</i>
+                    </a>
+                  <?php
+                  }
+                  ?>
+                <?php } ?>
+                <a href="files_brankas.php?brankas=<?= $data->id_brankas; ?>" class="btn btn-xs btn-outline-success">Buka Brankas</a>
+              </div>
+            </div>
+          </div>
+        <?php } ?>
+        <!-- /.col-md-3 -->
+      </div>
+      <!-- bagian Penyedia -->
+      <h3 class="m-0 text-dark"><small>Bidang Penyediaan Darah</small></h3>
+      <hr>
+      <div class="row">
+        <?php
+        $box = mysqli_query($conn, "SELECT * FROM brankas WHERE bg_brankas = 'Penyediaan-darah'");
+        while ($data = mysqli_fetch_object($box)) {
+        ?>
+          <div class="col-lg-3">
+            <div class="card card-primary card-outline">
+              <div class="card-header bg-<?= $data->warna; ?>">
+                <h5 class="card-title m-0"><b><?= $data->jd_brankas; ?></b></h5>
+                <?php
+                $brankas1 = $data->id_brankas;
+                $File = mysqli_query($conn, "SELECT COUNT(id_file) AS jumlah FROM file WHERE id_brankas='$brankas1'");
+                $out = mysqli_fetch_object($File);
+                ?>
+                <span class="badge badge-dark navbar-badge"><?= $out->jumlah; ?> File</span>
+              </div>
+              <div class="card-body">
+                <h6 class="card-title"><?= $data->kt_brankas; ?></h6>
+
+                <p class="card-text"><small><?= $data->ds_brankas; ?></small></p>
+                <?php
+                $brankas2 = $data->id_brankas;
+                $CekKosong = mysqli_query($conn, "SELECT id_brankas AS kosong FROM file WHERE id_brankas='$brankas2'");
+                $cek = mysqli_fetch_object($CekKosong);
+
+                if (!empty($cek->kosong)) {
+                ?>
+                  <a href="#" class="btn btn-xs btn-outline-secondary disabled">Hapus</i>
                   </a>
+                <?php } else { ?>
+                  <?php
+                  if ($role == 'Penyediaan-darah') {
+                  ?>
+                    <a href="#" class="btn btn-xs btn-outline-danger" onClick="konfirmasi('del_data.php?idbr=<?= $data->id_brankas; ?>');">Hapus</i>
+                    </a>
+                  <?php
+                  }
+                  ?>
+                <?php } ?>
+                <a href="files_brankas.php?brankas=<?= $data->id_brankas; ?>" class="btn btn-xs btn-outline-success">Buka Brankas</a>
+              </div>
+            </div>
+          </div>
+        <?php } ?>
+        <!-- /.col-md-3 -->
+      </div>
+      <!-- bagian uji -->
+      <h3 class="m-0 text-dark"><small>Bidang Uji Mutu</small></h3>
+      <hr>
+      <div class="row">
+        <?php
+        $box = mysqli_query($conn, "SELECT * FROM brankas WHERE bg_brankas = 'Uji-mutu'");
+        while ($data = mysqli_fetch_object($box)) {
+        ?>
+          <div class="col-lg-3">
+            <div class="card card-primary card-outline">
+              <div class="card-header bg-<?= $data->warna; ?>">
+                <h5 class="card-title m-0"><b><?= $data->jd_brankas; ?></b></h5>
+                <?php
+                $brankas1 = $data->id_brankas;
+                $File = mysqli_query($conn, "SELECT COUNT(id_file) AS jumlah FROM file WHERE id_brankas='$brankas1'");
+                $out = mysqli_fetch_object($File);
+                ?>
+                <span class="badge badge-dark navbar-badge"><?= $out->jumlah; ?> File</span>
+              </div>
+              <div class="card-body">
+                <h6 class="card-title"><?= $data->kt_brankas; ?></h6>
+
+                <p class="card-text"><small><?= $data->ds_brankas; ?></small></p>
+                <?php
+                $brankas2 = $data->id_brankas;
+                $CekKosong = mysqli_query($conn, "SELECT id_brankas AS kosong FROM file WHERE id_brankas='$brankas2'");
+                $cek = mysqli_fetch_object($CekKosong);
+
+                if (!empty($cek->kosong)) {
+                ?>
+                  <a href="#" class="btn btn-xs btn-outline-secondary disabled">Hapus</i>
+                  </a>
+                <?php } else { ?>
+                  <?php
+                  if ($role == 'Uji-mutu') {
+                  ?>
+                    <a href="#" class="btn btn-xs btn-outline-danger" onClick="konfirmasi('del_data.php?idbr=<?= $data->id_brankas; ?>');">Hapus</i>
+                    </a>
+                  <?php
+                  }
+                  ?>
+                <?php } ?>
+                <a href="files_brankas.php?brankas=<?= $data->id_brankas; ?>" class="btn btn-xs btn-outline-success">Buka Brankas</a>
+              </div>
+            </div>
+          </div>
+        <?php } ?>
+        <!-- /.col-md-3 -->
+      </div>
+      <!-- bagian pelayanan -->
+      <h3 class="m-0 text-dark"><small>Bidang Pelayanan Darah</small></h3>
+      <hr>
+      <div class="row">
+        <?php
+        $box = mysqli_query($conn, "SELECT * FROM brankas WHERE bg_brankas = 'Pelayanan-darah'");
+        while ($data = mysqli_fetch_object($box)) {
+        ?>
+          <div class="col-lg-3">
+            <div class="card card-primary card-outline">
+              <div class="card-header bg-<?= $data->warna; ?>">
+                <h5 class="card-title m-0"><b><?= $data->jd_brankas; ?></b></h5>
+                <?php
+                $brankas1 = $data->id_brankas;
+                $File = mysqli_query($conn, "SELECT COUNT(id_file) AS jumlah FROM file WHERE id_brankas='$brankas1'");
+                $out = mysqli_fetch_object($File);
+                ?>
+                <span class="badge badge-dark navbar-badge"><?= $out->jumlah; ?> File</span>
+              </div>
+              <div class="card-body">
+                <h6 class="card-title"><?= $data->kt_brankas; ?></h6>
+
+                <p class="card-text"><small><?= $data->ds_brankas; ?></small></p>
+                <?php
+                $brankas2 = $data->id_brankas;
+                $CekKosong = mysqli_query($conn, "SELECT id_brankas AS kosong FROM file WHERE id_brankas='$brankas2'");
+                $cek = mysqli_fetch_object($CekKosong);
+
+                if (!empty($cek->kosong)) {
+                ?>
+                  <a href="#" class="btn btn-xs btn-outline-secondary disabled">Hapus</i>
+                  </a>
+                <?php } else { ?>
+                  <?php
+                  if ($role == 'Pelayanan-darah') {
+                  ?>
+                    <a href="#" class="btn btn-xs btn-outline-danger" onClick="konfirmasi('del_data.php?idbr=<?= $data->id_brankas; ?>');">Hapus</i>
+                    </a>
+                  <?php
+                  }
+                  ?>
+                <?php } ?>
+                <a href="files_brankas.php?brankas=<?= $data->id_brankas; ?>" class="btn btn-xs btn-outline-success">Buka Brankas</a>
+              </div>
+            </div>
+          </div>
+        <?php } ?>
+        <!-- /.col-md-3 -->
+      </div>
+      <!-- bagian pemastian -->
+      <h3 class="m-0 text-dark"><small>Bidang Pemastian Mutu</small></h3>
+      <hr>
+      <div class="row">
+        <?php
+        $box = mysqli_query($conn, "SELECT * FROM brankas WHERE bg_brankas = 'Pemastian-mutu'");
+        while ($data = mysqli_fetch_object($box)) {
+        ?>
+          <div class="col-lg-3">
+            <div class="card card-primary card-outline">
+              <div class="card-header bg-<?= $data->warna; ?>">
+                <h5 class="card-title m-0"><b><?= $data->jd_brankas; ?></b></h5>
+                <?php
+                $brankas1 = $data->id_brankas;
+                $File = mysqli_query($conn, "SELECT COUNT(id_file) AS jumlah FROM file WHERE id_brankas='$brankas1'");
+                $out = mysqli_fetch_object($File);
+                ?>
+                <span class="badge badge-dark navbar-badge"><?= $out->jumlah; ?> File</span>
+              </div>
+              <div class="card-body">
+                <h6 class="card-title"><?= $data->kt_brankas; ?></h6>
+
+                <p class="card-text"><small><?= $data->ds_brankas; ?></small></p>
+                <?php
+                $brankas2 = $data->id_brankas;
+                $CekKosong = mysqli_query($conn, "SELECT id_brankas AS kosong FROM file WHERE id_brankas='$brankas2'");
+                $cek = mysqli_fetch_object($CekKosong);
+
+                if (!empty($cek->kosong)) {
+                ?>
+                  <a href="#" class="btn btn-xs btn-outline-secondary disabled">Hapus</i>
+                  </a>
+                <?php } else { ?>
+                  <?php
+                  if ($role == 'Pemastian-mutu') {
+                  ?>
+                    <a href="#" class="btn btn-xs btn-outline-danger" onClick="konfirmasi('del_data.php?idbr=<?= $data->id_brankas; ?>');">Hapus</i>
+                    </a>
+                  <?php
+                  }
+                  ?>
                 <?php } ?>
                 <a href="files_brankas.php?brankas=<?= $data->id_brankas; ?>" class="btn btn-xs btn-outline-success">Buka Brankas</a>
               </div>

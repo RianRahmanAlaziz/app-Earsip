@@ -41,7 +41,7 @@
                                 <option value="Umum">Umum</option>
                                 <option value="Keuangan">Keuangan</option>
                                 <option value="Penyediaan-darah">Penyediaan Darah</option>
-                                <option value="uji-mutu">Uji Mutu</option>
+                                <option value="Uji-mutu">Uji Mutu</option>
                                 <option value="Pelayanan-darah">Pelayanan Darah</option>
                                 <option value="Pemastian-mutu">Pemastian Mutu</option>
                             </select>

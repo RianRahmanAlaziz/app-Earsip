@@ -2,6 +2,8 @@
 session_start();
 error_reporting(0);
 include '../connect/database.php';
+$current_file = basename($_SERVER['PHP_SELF']);
+$role = isset($_SESSION['rl_user']) ? $_SESSION['rl_user'] : '';
 if ($_SESSION['start_login'] != true) {
   $_SESSION['pesan_login_gagal'] = 'Maaf Anda Harus Login Dulu..';
   echo "<script>window.location='../index.php'</script>";
@@ -15,7 +17,7 @@ if ($_SESSION['start_login'] != true) {
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta http-equiv="x-ua-compatible" content="ie=edge">
 
-  <title>E-Arsip || Admin</title>
+  <title>E-Arsip || Dashboard</title>
 
   <link rel="icon" type="image/png" sizes="16x16" href="../dist/img/logo_ea.png">
   <!-- Font Awesome Icons -->
@@ -42,7 +44,7 @@ if ($_SESSION['start_login'] != true) {
     <!-- Navbar -->
     <nav class="main-header navbar navbar-expand-md navbar-light navbar-white">
       <div class="container">
-        <a href="#" class="navbar-brand">
+        <a href="index.php" class="navbar-brand">
           <span class="brand-text font-weight-light text-primary"><b>E-Arsip</b></span>
         </a>
 
@@ -54,17 +56,32 @@ if ($_SESSION['start_login'] != true) {
           <!-- Left navbar links -->
           <ul class="navbar-nav">
             <li class="nav-item">
-              <a href="index.php" class="nav-link">Brankas</a>
+              <a href="umum.php" class="nav-link <?php echo ($current_file == 'umum.php') ? 'active' : ''; ?>">Umum</a>
             </li>
             <li class="nav-item">
-              <a href="data_user.php" class="nav-link">Data User</a>
+              <a href="keuangan.php" class="nav-link <?php echo ($current_file == 'keuangan.php') ? 'active' : ''; ?>">Keuangan</a>
             </li>
-            <li class="nav-item dropdown">
-              <a id="dropdownSubMenu1" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="nav-link dropdown-toggle">File</a>
-              <ul aria-labelledby="dropdownSubMenu1" class="dropdown-menu border-0 shadow">
-                <li><a href="files.php" class="dropdown-item">Semua File</a></li>
-                <li><a href="files_publik.php" class="dropdown-item">Publik</a></li>
+            <li class="nav-item">
+              <a href="penyedia-darah.php" class="nav-link <?php echo ($current_file == 'penyedia-darah.php') ? 'active' : ''; ?>">Penyediaan Darah</a>
             </li>
+            <li class="nav-item">
+              <a href="uji-mutu.php" class="nav-link <?php echo ($current_file == 'uji-mutu.php') ? 'active' : ''; ?>">Uji Mutu</a>
+            </li>
+            <li class="nav-item">
+              <a href="pelayanan-darah.php" class="nav-link <?php echo ($current_file == 'pelayanan-darah.php') ? 'active' : ''; ?>">Pelayanan Darah</a>
+            </li>
+            <li class="nav-item">
+              <a href="pemastian-mutu.php" class="nav-link <?php echo ($current_file == 'pemastian-mutu.php') ? 'active' : ''; ?>">Pemastian Mutu</a>
+            </li>
+            <?php
+            if ($role == 'Admin') {
+            ?>
+              <li class="nav-item">
+                <a href="data_user.php" class="nav-link <?php echo ($current_file == 'data_user.php') ? 'active' : ''; ?>">Data User</a>
+              </li>
+            <?php
+            }
+            ?>
           </ul>
         </div>
 

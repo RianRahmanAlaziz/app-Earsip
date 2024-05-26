@@ -20,24 +20,29 @@
                             <label class="control-label">Brankas</label>
                             <small class="text-danger">*</small>
                             <?php
-                            $db='brankas';
-                            $Pilihbrankas="SELECT * FROM $db";
-                            $Querybrankas=mysqli_query($conn, $Pilihbrankas); ?>
+                            $role = $_SESSION['rl_user'];
+                            $b = mysqli_query($conn, "SELECT * FROM brankas WHERE id_brankas='" . $_GET['brankas'] . "' ");
+                            $j = mysqli_fetch_object($b);
+                            $db = 'brankas';
+                            if ($role == $j->bg_brankas) {
+                                $Pilihbrankas = "SELECT * FROM $db WHERE bg_brankas='$j->bg_brankas'";
+                            }
+                            $Querybrankas = mysqli_query($conn, $Pilihbrankas); ?>
                             <select class="form-control" name="id_brankas" required="required" />
-                                <option value="">- Pilih -</option>
-                                <?php while($dbr=mysqli_fetch_object($Querybrankas)){ ?>
+                            <option value="">- Pilih -</option>
+                            <?php while ($dbr = mysqli_fetch_object($Querybrankas)) { ?>
                                 <option value="<?= $dbr->id_brankas; ?>"><?= $dbr->jd_brankas; ?></option>
-                                <?php } ?>
+                            <?php } ?>
                             </select>
                         </div>
                         <div class="form-group col-md-12 col-sm-6">
                             <label for="file_skl">File</label>
                             <input type="checkbox" checked="checked" name="upload_file" required="required" />
                             <div class="input-group">
-                              <div class="custom-file">
-                                <input type="file" name="file" class="custom-file-input" id="file_up" accept=".pdf,.doc,.docx,.xls,.xlsx,.ppt,.pptx,.rar,.zip,.jpg,.jpeg,.bmp,.png,.mp4,.mp3,.mpeg-1,.mpeg-2,.mpeg-4,.avi,.wmv">
-                                <label class="custom-file-label" for="file_up">Pilih File</label>
-                              </div>
+                                <div class="custom-file">
+                                    <input type="file" name="file" class="custom-file-input" id="file_up" accept=".pdf,.doc,.docx,.xls,.xlsx,.ppt,.pptx,.rar,.zip,.jpg,.jpeg,.bmp,.png,.mp4,.mp3,.mpeg-1,.mpeg-2,.mpeg-4,.avi,.wmv">
+                                    <label class="custom-file-label" for="file_up">Pilih File</label>
+                                </div>
                             </div>
                             <input type="hidden" name="tg_upload" value="<?= date('Y-m-d'); ?>">
                         </div>
@@ -45,13 +50,13 @@
                             <label class="control-label">Visibilitas</label>
                             <small class="text-danger">*</small>
                             <select class="form-control" name="visibilitas" required="required" />
-                                <option value="">- Pilih -</option>
-                                <option value="Rahasia">Rahasia</option>
-                                <option value="Publik">Publik</option>
+                            <option value="">- Pilih -</option>
+                            <option value="Rahasia">Rahasia</option>
+                            <option value="Publik">Publik</option>
                             </select>
                         </div>
                     </div>
-                    
+
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">Tutup</button>

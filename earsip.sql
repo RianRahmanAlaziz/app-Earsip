@@ -1,14 +1,13 @@
 -- phpMyAdmin SQL Dump
--- version 4.9.0.1
+-- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Waktu pembuatan: 31 Jan 2023 pada 09.11
--- Versi server: 10.4.6-MariaDB
--- Versi PHP: 7.1.32
+-- Waktu pembuatan: 26 Bulan Mei 2024 pada 06.17
+-- Versi server: 10.4.28-MariaDB
+-- Versi PHP: 8.2.4
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
-SET AUTOCOMMIT = 0;
 START TRANSACTION;
 SET time_zone = "+00:00";
 
@@ -34,15 +33,21 @@ CREATE TABLE `brankas` (
   `kt_brankas` varchar(100) NOT NULL,
   `ds_brankas` varchar(200) NOT NULL,
   `wk_brankas` varchar(100) NOT NULL,
-  `warna` enum('success','info','danger','warning') NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+  `warna` enum('success','info','danger','warning') NOT NULL,
+  `bg_brankas` varchar(225) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 --
 -- Dumping data untuk tabel `brankas`
 --
 
-INSERT INTO `brankas` (`id_brankas`, `jd_brankas`, `kt_brankas`, `ds_brankas`, `wk_brankas`, `warna`) VALUES
-(20, 'Dokumentasi', 'Foto-foto kegiatan', 'Arsip Dokumentasi', '2023-01-31', 'info');
+INSERT INTO `brankas` (`id_brankas`, `jd_brankas`, `kt_brankas`, `ds_brankas`, `wk_brankas`, `warna`, `bg_brankas`) VALUES
+(26, 'Umum', 'Umum', 'Umum', '2024-05-25', 'success', 'Umum'),
+(27, 'keuangan', 'keuangan', 'keuangan', '2024-05-25', 'success', 'Keuangan'),
+(28, 'Penyediaan Darah', 'Penyediaan Darah', 'Penyediaan Darah', '2024-05-25', 'success', 'Penyediaan-darah'),
+(29, 'Uji Mutu', 'Uji Mutu', 'Uji Mutu', '2024-05-25', 'success', 'Uji-mutu'),
+(30, 'Pelayanan-darah', 'Pelayanan-darah', 'Pelayanan-darah', '2024-05-25', 'success', 'Pelayanan-darah'),
+(31, 'Pemastian-mutu', 'Pemastian-mutu', 'Pemastian-mutu', '2024-05-25', 'success', 'Pemastian-mutu');
 
 -- --------------------------------------------------------
 
@@ -57,7 +62,7 @@ CREATE TABLE `file` (
   `file` varchar(225) NOT NULL,
   `tg_upload` varchar(100) NOT NULL,
   `visibilitas` enum('Rahasia','Publik') NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 -- --------------------------------------------------------
 
@@ -70,15 +75,16 @@ CREATE TABLE `user` (
   `nm_user` varchar(100) NOT NULL,
   `em_user` varchar(100) NOT NULL,
   `ps_user` varchar(100) NOT NULL,
-  `rl_user` varchar(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+  `rl_user` varchar(50) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 --
 -- Dumping data untuk tabel `user`
 --
 
 INSERT INTO `user` (`id_user`, `nm_user`, `em_user`, `ps_user`, `rl_user`) VALUES
-(2, 'Saya', 'mahmud@gmail.com', '348162101fc6f7e624681b7400b085eeac6df7bd', 'Admin');
+(2, 'Saya', 'admin@gmail.com', '21232f297a57a5a743894a0e4a801fc3', 'Admin'),
+(5, 'rian', 'rian@gmail.com', 'cb2b28afc2cc836b33eb7ed86f99e65a', 'Uji-mutu');
 
 --
 -- Indexes for dumped tables
@@ -110,19 +116,19 @@ ALTER TABLE `user`
 -- AUTO_INCREMENT untuk tabel `brankas`
 --
 ALTER TABLE `brankas`
-  MODIFY `id_brankas` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
+  MODIFY `id_brankas` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=32;
 
 --
 -- AUTO_INCREMENT untuk tabel `file`
 --
 ALTER TABLE `file`
-  MODIFY `id_file` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
+  MODIFY `id_file` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=35;
 
 --
 -- AUTO_INCREMENT untuk tabel `user`
 --
 ALTER TABLE `user`
-  MODIFY `id_user` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id_user` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

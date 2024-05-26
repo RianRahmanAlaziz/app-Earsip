@@ -32,8 +32,12 @@
                             <label class="control-label">Role</label>
                             <small class="text-danger">*</small>
                             <select class="form-control" name="rl_user" id="rl_user" required>
-                                <option value="Admin">Admin</option>
                                 <option value="Keuangan">Keuangan</option>
+                                <option value="Umum">Umum</option>
+                                <option value="Penyediaan-darah">Penyediaan Darah</option>
+                                <option value="Uji-mutu">Uji Mutu</option>
+                                <option value="Pelayanan-darah">Pelayanan Darah</option>
+                                <option value="Pemastian-mutu">Pemastian Mutu</option>
                             </select>
                         </div>
                     </div>
