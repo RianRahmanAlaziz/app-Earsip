@@ -101,7 +101,7 @@ if ($cek->num_rows == '') {
                   <?php
                   $c = mysqli_query($conn, "SELECT * FROM brankas WHERE id_brankas='" . $_GET['brankas'] . "' ");
                   $i = mysqli_fetch_object($c);
-                  if ($role == $i->bg_brankas) {
+                  if ($role == $i->bg_brankas || $role == 'Admin') {
                   ?>
                     <button type="button" class="btn btn-outline-info btn-sm mt-1" id="td_tfile" data-toggle="modal" data-target="#md_tfile" title="Klik untuk tambah file">
                       <i class="fas fa-plus"></i>
@@ -118,6 +118,8 @@ if ($cek->num_rows == '') {
                       <tr class="bg-light">
                         <th class="text-center">No.</th>
                         <th>Nama File</th>
+                        <th>Tgl. Produksi</th>
+                        <th>Tgl. Expired</th>
                         <th>Format</th>
                         <th>Tgl. Upload</th>
                         <th>Vis.</th>
@@ -135,6 +137,8 @@ if ($cek->num_rows == '') {
                         <tr>
                           <td align="center" width="5%"><?= $no++; ?></td>
                           <td><?= $data->nm_file; ?></td>
+                          <td><?= tgl_indo($data->produksi); ?></td>
+                          <td><?= tgl_indo($data->expired); ?></td>
                           <td>
                             <?php
                             $ekstensi = $data->file;
@@ -193,11 +197,12 @@ if ($cek->num_rows == '') {
                             <?php
                             $a = mysqli_query($conn, "SELECT * FROM brankas WHERE id_brankas='" . $_GET['brankas'] . "' ");
                             $i = mysqli_fetch_object($a);
-                            if ($role == $i->bg_brankas) {
+                            if ($role == $i->bg_brankas || $role == 'Admin') {
                             ?>
                               <a href="#" class="btn btn-xs btn-outline-danger" onClick="konfirmasi('del_data.php?idfl=<?= $data->id_file; ?>');"><i class="fas fa-trash-alt"></i>
                               </a>
-                              <a title="Ubah" class="btn btn-outline-success btn-xs" id="td_efile" href="#" data-toggle="modal" data-target="#md_efile" data-id="<?= $data->id_file; ?>" data-br="<?= $data->id_brankas; ?>" data-nm="<?= $data->nm_file; ?>" data-tg="<?= $data->tg_upload; ?>" data-vs="<?= $data->visibilitas; ?>"><i class="fas fa-pencil-alt"></i></a>
+                              <a title="Ubah" class="btn btn-outline-success btn-xs" id="td_efile" href="#" data-toggle="modal" data-target="#md_efile" data-id="<?= $data->id_file; ?>" data-br="<?= $data->id_brankas; ?>" data-nm="<?= $data->nm_file; ?>" data-tg="<?= $data->tg_upload; ?>" data-vs="<?= $data->visibilitas; ?>" data-pr="<?= $data->produksi; ?>" data-ex="<?= $data->expired; ?>">
+                                <i class="fas fa-pencil-alt"></i></a>
                             <?php
                             }
                             ?>
@@ -306,12 +311,16 @@ if ($cek->num_rows == '') {
       let nm = $(this).data('nm');
       let tg = $(this).data('tg');
       let vs = $(this).data('vs');
+      let pr = $(this).data('pr');
+      let ex = $(this).data('ex');
 
       $("#md_efile #id_file").val(id);
       $("#md_efile #id_brankas").val(br);
       $("#md_efile #nm_file").val(nm);
       $("#md_efile #tg_upload").val(tg);
       $("#md_efile #visibilitas").val(vs);
+      $("#md_efile #produksi").val(pr);
+      $("#md_efile #expired").val(ex);
     })
 
     $(document).ready(function(e) {

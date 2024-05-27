@@ -68,7 +68,7 @@ include '../connect/database.php';
                                     </a>
                                 <?php } else { ?>
                                     <?php
-                                    if ($role == 'Pelayanan-darah') {
+                                    if ($role == 'Pelayanan-darah' || $role == 'Admin') {
                                     ?>
                                         <a href="#" class="btn btn-xs btn-outline-danger" onClick="konfirmasi('del_data.php?idbr=<?= $data->id_brankas; ?>');">Hapus</i>
                                         </a>

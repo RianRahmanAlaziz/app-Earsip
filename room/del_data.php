@@ -10,10 +10,10 @@ if (isset($_GET['idbr'])) {
 
     if ($DelBrankas) {
         $_SESSION['pesan_brankas_sukseshapus'] = 'Brankas Dihapus...!!';
-        echo "<script>window.location='index.php'</script>";
+        echo "<script>window.history.go(-2);</script>";
     } else {
         $_SESSION['pesan_brankas_gagalhapus'] = 'Gagal Hapus Brankas...!!';
-        echo "<script>window.location='index.php'</script>";
+        echo "<script>window.history.go(-2);</script>";
     }
 }
 //Hapus Brankas

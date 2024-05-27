@@ -17,6 +17,16 @@
                             <input type="text" class="form-control" name="nm_file" id="nm_file" required />
                         </div>
                         <div class="form-group col-md-12 col-sm-6">
+                            <label class="control-label">Tanggal Produksi</label>
+                            <small class="text-danger">*</small>
+                            <input type="date" class="form-control" name="produksi" id="produksi" required />
+                        </div>
+                        <div class="form-group col-md-12 col-sm-6">
+                            <label class="control-label">Tanggal Expired</label>
+                            <small class="text-danger">*</small>
+                            <input type="date" class="form-control" name="expired" id="expired" required />
+                        </div>
+                        <div class="form-group col-md-12 col-sm-6">
                             <label class="control-label">Brankas</label>
                             <small class="text-danger">*</small>
                             <?php
@@ -24,7 +34,7 @@
                             $b = mysqli_query($conn, "SELECT * FROM brankas WHERE id_brankas='" . $_GET['brankas'] . "' ");
                             $j = mysqli_fetch_object($b);
                             $db = 'brankas';
-                            if ($role == $j->bg_brankas) {
+                            if ($role == $j->bg_brankas || $role == 'Admin') {
                                 $Pilihbrankas = "SELECT * FROM $db WHERE bg_brankas='$j->bg_brankas'";
                             }
                             $Querybrankas = mysqli_query($conn, $Pilihbrankas); ?>

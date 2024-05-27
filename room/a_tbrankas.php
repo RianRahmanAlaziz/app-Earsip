@@ -30,10 +30,10 @@ if (@$_POST['simpan']) {
 
 		if ($tambah) {
 			$_SESSION['pesan_brankas_suksestambah'] = 'Brankas Ditambah...';
-			echo "<script>window.location='index.php';</script>";
+			echo "<script>window.history.go(-1);</script>";
 		} else {
 			$_SESSION['pesan_brankas_gagaltambah'] = 'Gagal Tambah Brankas..!!!';
-			echo "<script>window.location='index.php';</script>";
+			echo "<script>window.history.go(-1);</script>";
 		}
 	}
 }

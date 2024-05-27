@@ -69,7 +69,7 @@ $role = isset($_SESSION['rl_user']) ? $_SESSION['rl_user'] : '';
                   </a>
                 <?php } else { ?>
                   <?php
-                  if ($role == 'Umum') {
+                  if ($role == 'Umum' || $role == 'Admin') {
                   ?>
                     <a href="#" class="btn btn-xs btn-outline-danger" onClick="konfirmasi('del_data.php?idbr=<?= $data->id_brankas; ?>');">Hapus</i>
                     </a>
@@ -118,7 +118,7 @@ $role = isset($_SESSION['rl_user']) ? $_SESSION['rl_user'] : '';
                   </a>
                 <?php } else { ?>
                   <?php
-                  if ($role == 'Keuangan') {
+                  if ($role == 'Keuangan' || $role == 'Admin') {
                   ?>
                     <a href="#" class="btn btn-xs btn-outline-danger" onClick="konfirmasi('del_data.php?idbr=<?= $data->id_brankas; ?>');">Hapus</i>
                     </a>
@@ -167,7 +167,7 @@ $role = isset($_SESSION['rl_user']) ? $_SESSION['rl_user'] : '';
                   </a>
                 <?php } else { ?>
                   <?php
-                  if ($role == 'Penyediaan-darah') {
+                  if ($role == 'Penyediaan-darah' || $role == 'Admin') {
                   ?>
                     <a href="#" class="btn btn-xs btn-outline-danger" onClick="konfirmasi('del_data.php?idbr=<?= $data->id_brankas; ?>');">Hapus</i>
                     </a>
@@ -216,7 +216,7 @@ $role = isset($_SESSION['rl_user']) ? $_SESSION['rl_user'] : '';
                   </a>
                 <?php } else { ?>
                   <?php
-                  if ($role == 'Uji-mutu') {
+                  if ($role == 'Uji-mutu' || $role == 'Admin') {
                   ?>
                     <a href="#" class="btn btn-xs btn-outline-danger" onClick="konfirmasi('del_data.php?idbr=<?= $data->id_brankas; ?>');">Hapus</i>
                     </a>
@@ -265,7 +265,7 @@ $role = isset($_SESSION['rl_user']) ? $_SESSION['rl_user'] : '';
                   </a>
                 <?php } else { ?>
                   <?php
-                  if ($role == 'Pelayanan-darah') {
+                  if ($role == 'Pelayanan-darah' || $role == 'Admin') {
                   ?>
                     <a href="#" class="btn btn-xs btn-outline-danger" onClick="konfirmasi('del_data.php?idbr=<?= $data->id_brankas; ?>');">Hapus</i>
                     </a>
@@ -314,7 +314,7 @@ $role = isset($_SESSION['rl_user']) ? $_SESSION['rl_user'] : '';
                   </a>
                 <?php } else { ?>
                   <?php
-                  if ($role == 'Pemastian-mutu') {
+                  if ($role == 'Pemastian-mutu' || $role == 'Admin') {
                   ?>
                     <a href="#" class="btn btn-xs btn-outline-danger" onClick="konfirmasi('del_data.php?idbr=<?= $data->id_brankas; ?>');">Hapus</i>
                     </a>

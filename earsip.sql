@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Waktu pembuatan: 26 Bulan Mei 2024 pada 06.17
+-- Waktu pembuatan: 27 Bulan Mei 2024 pada 14.31
 -- Versi server: 10.4.28-MariaDB
 -- Versi PHP: 8.2.4
 
@@ -47,7 +47,8 @@ INSERT INTO `brankas` (`id_brankas`, `jd_brankas`, `kt_brankas`, `ds_brankas`, `
 (28, 'Penyediaan Darah', 'Penyediaan Darah', 'Penyediaan Darah', '2024-05-25', 'success', 'Penyediaan-darah'),
 (29, 'Uji Mutu', 'Uji Mutu', 'Uji Mutu', '2024-05-25', 'success', 'Uji-mutu'),
 (30, 'Pelayanan-darah', 'Pelayanan-darah', 'Pelayanan-darah', '2024-05-25', 'success', 'Pelayanan-darah'),
-(31, 'Pemastian-mutu', 'Pemastian-mutu', 'Pemastian-mutu', '2024-05-25', 'success', 'Pemastian-mutu');
+(32, 'Pemastian Mutu', 'Pemastian Mutu', 'Pemastian Mutu', '2024-05-27', 'success', 'Pemastian-mutu'),
+(37, 'b', 'a', 'a', '2024-05-27', 'info', 'Pemastian-mutu');
 
 -- --------------------------------------------------------
 
@@ -61,8 +62,19 @@ CREATE TABLE `file` (
   `nm_file` varchar(100) NOT NULL,
   `file` varchar(225) NOT NULL,
   `tg_upload` varchar(100) NOT NULL,
-  `visibilitas` enum('Rahasia','Publik') NOT NULL
+  `visibilitas` enum('Rahasia','Publik') NOT NULL,
+  `produksi` date DEFAULT NULL,
+  `expired` date DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+
+--
+-- Dumping data untuk tabel `file`
+--
+
+INSERT INTO `file` (`id_file`, `id_brankas`, `nm_file`, `file`, `tg_upload`, `visibilitas`, `produksi`, `expired`) VALUES
+(36, 32, 'asd', 'asd.jpeg', '2024-05-27', 'Rahasia', NULL, NULL),
+(37, 26, 'a', 'a.jpg', '2024-05-27', 'Publik', '2024-05-03', '2024-05-31'),
+(38, 26, 'z', 'z.jpeg', '2024-05-27', 'Rahasia', '2024-05-02', '2024-05-29');
 
 -- --------------------------------------------------------
 
@@ -116,13 +128,13 @@ ALTER TABLE `user`
 -- AUTO_INCREMENT untuk tabel `brankas`
 --
 ALTER TABLE `brankas`
-  MODIFY `id_brankas` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=32;
+  MODIFY `id_brankas` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=39;
 
 --
 -- AUTO_INCREMENT untuk tabel `file`
 --
 ALTER TABLE `file`
-  MODIFY `id_file` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=35;
+  MODIFY `id_file` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=39;
 
 --
 -- AUTO_INCREMENT untuk tabel `user`

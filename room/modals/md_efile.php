@@ -18,17 +18,27 @@
                             <input type="text" class="form-control" name="nm_file" id="nm_file" required />
                         </div>
                         <div class="form-group col-md-12 col-sm-6">
+                            <label class="control-label">Tanggal Produksi</label>
+                            <small class="text-danger">*</small>
+                            <input type="date" class="form-control" name="produksi" id="produksi" required />
+                        </div>
+                        <div class="form-group col-md-12 col-sm-6">
+                            <label class="control-label">Tanggal Expired</label>
+                            <small class="text-danger">*</small>
+                            <input type="date" class="form-control" name="expired" id="expired" required />
+                        </div>
+                        <div class="form-group col-md-12 col-sm-6">
                             <label class="control-label">Brankas</label>
                             <small class="text-danger">*</small>
                             <?php
-                            $db='brankas';
-                            $Pilihbrankas="SELECT * FROM $db";
-                            $Querybrankas=mysqli_query($conn, $Pilihbrankas); ?>
+                            $db = 'brankas';
+                            $Pilihbrankas = "SELECT * FROM $db";
+                            $Querybrankas = mysqli_query($conn, $Pilihbrankas); ?>
                             <select class="form-control" name="id_brankas" id="id_brankas" required="required" />
-                                <option value="">- Pilih -</option>
-                                <?php while($dbr=mysqli_fetch_object($Querybrankas)){ ?>
+                            <option value="">- Pilih -</option>
+                            <?php while ($dbr = mysqli_fetch_object($Querybrankas)) { ?>
                                 <option value="<?= $dbr->id_brankas; ?>"><?= $dbr->jd_brankas; ?></option>
-                                <?php } ?>
+                            <?php } ?>
                             </select>
                         </div>
                         <div class="form-group col-md-12 col-sm-6">
@@ -36,13 +46,13 @@
                             <small class="text-danger">*</small>
                             <input type="hidden" name="tg_upload" id="tg_upload" value="<?= date('Y-m-d'); ?>">
                             <select class="form-control" name="visibilitas" id="visibilitas" required="required" />
-                                <option value="">- Pilih -</option>
-                                <option value="Rahasia">Rahasia</option>
-                                <option value="Publik">Publik</option>
+                            <option value="">- Pilih -</option>
+                            <option value="Rahasia">Rahasia</option>
+                            <option value="Publik">Publik</option>
                             </select>
                         </div>
                     </div>
-                    
+
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">Tutup</button>
