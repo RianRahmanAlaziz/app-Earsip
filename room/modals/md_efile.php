@@ -31,10 +31,15 @@
                             <label class="control-label">Brankas</label>
                             <small class="text-danger">*</small>
                             <?php
+                            $role = $_SESSION['rl_user'];
+                            $b = mysqli_query($conn, "SELECT * FROM brankas WHERE id_brankas='" . $_GET['brankas'] . "' ");
+                            $j = mysqli_fetch_object($b);
                             $db = 'brankas';
-                            $Pilihbrankas = "SELECT * FROM $db";
+                            if ($role == $j->bg_brankas || $role == 'Admin') {
+                                $Pilihbrankas = "SELECT * FROM $db WHERE bg_brankas='$j->bg_brankas'";
+                            }
                             $Querybrankas = mysqli_query($conn, $Pilihbrankas); ?>
-                            <select class="form-control" name="id_brankas" id="id_brankas" required="required" />
+                            <select class="form-control" id="id_brankas" name="id_brankas" required="required" />
                             <option value="">- Pilih -</option>
                             <?php while ($dbr = mysqli_fetch_object($Querybrankas)) { ?>
                                 <option value="<?= $dbr->id_brankas; ?>"><?= $dbr->jd_brankas; ?></option>
