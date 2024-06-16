@@ -5,6 +5,7 @@ include 'layout/head.php';
 include '../connect/database.php';
 
 $role = isset($_SESSION['rl_user']) ? $_SESSION['rl_user'] : '';
+
 ?>
 
 <!-- Content Wrapper. Contains page content -->
@@ -35,6 +36,7 @@ $role = isset($_SESSION['rl_user']) ? $_SESSION['rl_user'] : '';
         <small>Tambah Brankas</small>
       </button>
       <hr>
+
       <!-- bagian umum -->
       <h3 class="m-0 text-dark"><small>Bagian Umum</small></h3>
       <hr>

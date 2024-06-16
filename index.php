@@ -14,6 +14,7 @@ error_reporting(0);
 
   <!-- Google Font: Source Sans Pro -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
+
   <!-- Font Awesome -->
   <link rel="stylesheet" href="plugins/fontawesome-free/css/all.min.css">
   <!-- icheck bootstrap -->
@@ -36,7 +37,7 @@ error_reporting(0);
       <div class="card-body login-card-body">
         <form action="auth/proses_login.php" method="post">
           <div class="input-group mb-3">
-            <input type="email" class="form-control" placeholder="Email" name="em_user" id="em_user" required="" />
+            <input type="text" class="form-control" placeholder="Email" name="em_user" id="em_user" required="" />
             <div class="input-group-append">
               <div class="input-group-text">
                 <span class="fas fa-envelope text-primary"></span>
@@ -53,7 +54,7 @@ error_reporting(0);
           <div class="form-group text-center">
             <img id="captcha" src="plugins/securimage/securimage_show.php" width="50%" alt="CAPTCHA Image" />
           </div>
-          <center><small>Isikan hasil operasi matematika di atas</small></center>
+          <center><small>Masukan Kode di Atas</small></center>
           <div class="input-group mb-3">
             <div class="input-group-prepend">
               <span class="input-group-text" title="Refresh" onclick="window.history.go(0);"><img src="dist/img/signal.gif" width="20px"></span>

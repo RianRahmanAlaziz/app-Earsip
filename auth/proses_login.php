@@ -10,6 +10,7 @@ if ($securimage->check($_POST['kode']) == false) {
 } else {
 
 	include '../connect/database.php';
+
 	if (isset($_POST['login'])) {
 		function anti_injection($data)
 		{
@@ -24,12 +25,11 @@ if ($securimage->check($_POST['kode']) == false) {
 		$injeksi_ps_user = mysqli_real_escape_string($conn, $ps_user);
 
 		$cek = mysqli_query($conn, "SELECT * FROM user WHERE 
-	      em_user = '" . $injeksi_em_user . "' AND 
-	      ps_user = '" . $injeksi_ps_user . "' 
-	      ");
+	      (em_user = '$injeksi_em_user' OR kode = '$injeksi_em_user') AND ps_user = '$injeksi_ps_user'");
 
 		$user = mysqli_fetch_array($cek);
 		$id_user = $user['id_user'];
+		$nm_user = $user['nm_user'];
 		$em_user = $user['em_user'];
 		$rl_user = $user['rl_user'];
 
@@ -37,6 +37,7 @@ if ($securimage->check($_POST['kode']) == false) {
 
 			$_SESSION['start_login'] = true;
 			$_SESSION['id_user'] = $id_user;
+			$_SESSION['nm_user'] = $nm_user;
 			$_SESSION['em_user'] = $em_user;
 			$_SESSION['rl_user'] = $rl_user;
 

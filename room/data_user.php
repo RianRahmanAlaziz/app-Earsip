@@ -4,6 +4,8 @@ error_reporting(0);
 include 'layout/head.php';
 include '../connect/database.php';
 
+
+
 if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['add_user'])) {
   $em_user = mysqli_real_escape_string($conn, stripslashes(strip_tags(htmlspecialchars($_POST['em_user'], ENT_QUOTES))));
   $ps_user = password_hash($_POST['ps_user'], PASSWORD_DEFAULT); // Hash the password
@@ -71,6 +73,7 @@ if ($cek->num_rows == 0) {
                   <thead>
                     <tr class="bg-light">
                       <th class="text-center">No.</th>
+                      <th>Kode</th>
                       <th>Nama</th>
                       <th>Email</th>
                       <th>Role</th>
@@ -85,6 +88,7 @@ if ($cek->num_rows == 0) {
                     while ($data = mysqli_fetch_object($Query)) { ?>
                       <tr>
                         <td align="center"><?= $no++; ?></td>
+                        <td><?= $data->kode; ?></td>
                         <td><?= $data->nm_user; ?></td>
                         <td><?= $data->em_user; ?></td>
                         <td><?= $data->rl_user; ?></td>

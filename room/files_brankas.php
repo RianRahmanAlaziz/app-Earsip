@@ -7,6 +7,10 @@ include '../connect/database.php';
 $role = isset($_SESSION['rl_user']) ? $_SESSION['rl_user'] : '';
 $cek = mysqli_query($conn, "SELECT * FROM brankas");
 
+$brankas_id = $_GET['brankas'];
+$query = mysqli_query($conn, "SELECT bg_brankas FROM brankas WHERE id_brankas='$brankas_id'");
+$brankas = mysqli_fetch_assoc($query);
+$nama_brankas = $brankas['bg_brankas'];
 
 if ($cek->num_rows == '') {
   $_SESSION['pesan_brankas_kosong'] = 'Tambahkan Brankas Dulu...!!!';
@@ -118,7 +122,7 @@ if ($cek->num_rows == '') {
                       <tr class="bg-light">
                         <th class="text-center">No.</th>
                         <th>Nama File</th>
-                        <th>Tgl. Produksi</th>
+                        <th>Tgl. Dokumen</th>
                         <th>Tgl. Expired</th>
                         <th>Format</th>
                         <th>Tgl. Upload</th>
@@ -205,8 +209,17 @@ if ($cek->num_rows == '') {
                                 <i class="fas fa-pencil-alt"></i></a>
                             <?php
                             }
+                            $allowDownload = ($role == $i->bg_brankas || $role == 'Admin');
                             ?>
-                            <a href="../dist/img/upload/<?= $data->file; ?>" class="btn btn-xs btn-outline-dark" target="_blank"><i class="fas fa-download"></i></a>
+                            <a href="../dist/img/upload/<?= $data->file; ?>" class="btn btn-xs <?= !$allowDownload ? 'disabled ' : ''; ?> btn-outline-dark" target="_blank" download="<?= $data->nm_file; ?>"><i class="fas fa-download"></i></a>
+                            <a href="../dist/img/upload/<?= $data->file; ?>" class="btn btn-xs <?= !$allowDownload ? 'disabled ' : ''; ?> btn-outline-primary" target="_blank"><i class="fas fa-eye"></i></a>
+                            <?php
+                            if (!$allowDownload) {
+                            ?>
+                              <a href="#" id="td_pesan" data-toggle="modal" data-target="#md_pesan" data-id_files="<?= $data->id_file; ?>" class="btn btn-xs btn-outline-warning"><i class="fas fa-exchange-alt"></i> Ajukan Pinjam</a>
+                            <?php
+                            }
+                            ?>
                           </td>
                         </tr>
                       <?php } ?>
@@ -227,9 +240,29 @@ if ($cek->num_rows == '') {
     <!-- /.content -->
   </div>
   <!-- /.content-wrapper -->
+
+  <!-- Modal untuk Melihat File -->
+  <div class="modal fade" id="viewFileModal" tabindex="-1" role="dialog" aria-labelledby="viewFileModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="viewFileModalLabel">Lihat File</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <canvas id="pdfViewer" style="width: 100%; height: 100%;"></canvas>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
   <?php
 
   include 'layout/foot.php';
+  include 'modals/md_pesan.php';
   include 'modals/md_tfile.php';
   include 'modals/md_efile.php';
   include 'modals/md_eberkas.php';
@@ -280,6 +313,70 @@ if ($cek->num_rows == '') {
   ?>
 
   <script>
+    $(document).on("click", ".btn-outline-primary", function(e) {
+      e.preventDefault();
+      var fileUrl = $(this).attr('href');
+      var ext = fileUrl.split('.').pop().toLowerCase();
+
+      if (ext === 'pdf') {
+        $("#imageViewer").hide();
+        $("#pdfViewer").show();
+        $("#viewFileModal").modal('show');
+        renderPDF(fileUrl);
+      } else if (['jpg', 'jpeg', 'png', 'bmp'].includes(ext)) {
+        $("#pdfViewer").hide();
+        $("#imageViewer").show();
+        $("#imageViewer").attr("src", fileUrl);
+        $("#viewFileModal").modal('show');
+      } else {
+        window.open(fileUrl, '_blank');
+      }
+    });
+
+    function renderPDF(url) {
+      var pdfjsLib = window['pdfjs-dist/build/pdf'];
+      pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.10.377/pdf.worker.min.js';
+
+      var loadingTask = pdfjsLib.getDocument(url);
+      loadingTask.promise.then(function(pdf) {
+        console.log('PDF loaded');
+
+        pdf.getPage(1).then(function(page) {
+          console.log('Page loaded');
+
+          var scale = 1.5;
+          var viewport = page.getViewport({
+            scale: scale
+          });
+
+          var canvas = document.getElementById('pdfViewer');
+          if (!canvas) {
+            console.error('Canvas not found!');
+            return;
+          }
+          var context = canvas.getContext('2d');
+          canvas.height = viewport.height;
+          canvas.width = viewport.width;
+
+          var renderContext = {
+            canvasContext: context,
+            viewport: viewport
+          };
+          var renderTask = page.render(renderContext);
+          renderTask.promise.then(function() {
+            console.log('Page rendered');
+          });
+        });
+      }, function(reason) {
+        console.error(reason);
+      });
+    }
+
+    $(document).on("click", "#td_pesan", function() {
+      console.log('kontol');
+
+    })
+
     $(document).on("click", "#td_eberkas", function() {
       let id_br = $(this).data('id_br');
       let fl_br = $(this).data('fl_br');
@@ -323,6 +420,7 @@ if ($cek->num_rows == '') {
       $("#md_efile #expired").val(ex);
     })
 
+
     $(document).ready(function(e) {
       $('#form').on("submit", function(e) {
         e.preventDefault();
@@ -339,7 +437,6 @@ if ($cek->num_rows == '') {
         });
       });
     })
-
     $(function() {
       bsCustomFileInput.init();
     });

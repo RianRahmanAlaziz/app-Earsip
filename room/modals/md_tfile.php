@@ -17,7 +17,7 @@
                             <input type="text" class="form-control" name="nm_file" id="nm_file" required />
                         </div>
                         <div class="form-group col-md-12 col-sm-6">
-                            <label class="control-label">Tanggal Produksi</label>
+                            <label class="control-label">Tanggal Dokumen</label>
                             <small class="text-danger">*</small>
                             <input type="date" class="form-control" name="produksi" id="produksi" required />
                         </div>

@@ -10,7 +10,10 @@
 </footer>
 </div>
 <!-- ./wrapper -->
-
+<!-- Control Sidebar -->
+<aside class="control-sidebar control-sidebar-dark">
+  <!-- Control sidebar content goes here -->
+</aside>
 <!-- REQUIRED SCRIPTS -->
 
 <!-- jQuery -->
@@ -32,6 +35,8 @@
 <script src="../plugins/chart.js/Chart.min.js"></script>
 <!-- bs-custom-file-input -->
 <script src="../plugins/bs-custom-file-input/bs-custom-file-input.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.10.377/pdf.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.10.377/pdf.worker.min.js"></script>
 <?php
 if (@$_SESSION['pesan_user_suksesedit']) { ?>
   <script>
