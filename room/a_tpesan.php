@@ -5,6 +5,7 @@ include '../connect/database.php';
 if (@$_POST['simpan']) {
     // Ambil data dari formulir
     $id_pengirim = mysqli_real_escape_string($conn, $_POST['id_pengirim']);
+    $file_id = mysqli_real_escape_string($conn, $_POST['id_file']);
     $pengirim = mysqli_real_escape_string($conn, $_POST['pengirim']);
     $penerima = mysqli_real_escape_string($conn, $_POST['penerima']);
     $pesan = mysqli_real_escape_string($conn, $_POST['pesan']);
@@ -14,6 +15,7 @@ if (@$_POST['simpan']) {
     $tambah = mysqli_query($conn, "INSERT INTO pesan VALUES(
 		'',
         '" . $id_pengirim . "',
+        '" . $file_id . "',
 		'" . $pengirim . "',
 		'" . $penerima . "',
 		'" . $pesan . "',
@@ -21,11 +23,12 @@ if (@$_POST['simpan']) {
         '" . $status . "'
 		)");
 
+
     if ($tambah) {
-        $_SESSION['pesan_user_suksestambah'] = 'Pesan Ditambah...';
-        echo "<script>window.location='data_user.php';</script>";
+        $_SESSION['pesan_user_suksesedit'] = 'Dalam Pengajuan...';
+        echo "<script>window.history.go(-1);</script>";
     } else {
-        $_SESSION['pesan_user_gagaltambah'] = 'Gagal Tambah Pesan..!!!';
-        echo "<script>window.location='data_user.php';</script>";
+        $_SESSION['pesan_user_gagaledit'] = 'Gagal Dalam Pengajuan..!!!';
+        echo "<script>window.history.go(-1);</script>";
     }
 }

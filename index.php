@@ -50,7 +50,7 @@ error_reporting(0);
               <span class="input-group-text" title="Tampilkan Password" id="mybutton" onclick="change()"><i class="fas fa-eye text-primary"></i></span>
             </div>
           </div>
-
+          <!-- 
           <div class="form-group text-center">
             <img id="captcha" src="plugins/securimage/securimage_show.php" width="50%" alt="CAPTCHA Image" />
           </div>
@@ -63,7 +63,8 @@ error_reporting(0);
             <div class="input-group-append">
               <span class="input-group-text" title="Refresh" onclick="window.history.go(0);"><img src="plugins/securimage/images/reload.gif" width="20px" alt="Refresh"></span>
             </div>
-          </div>
+          </div> -->
+
           <div class="row">
             <div class="col-sm-12">
               <button type="submit" name="login" class="btn btn-primary btn-block">Log In</button>

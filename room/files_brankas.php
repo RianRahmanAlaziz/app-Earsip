@@ -5,12 +5,27 @@ include 'layout/head.php';
 include '../connect/database.php';
 
 $role = isset($_SESSION['rl_user']) ? $_SESSION['rl_user'] : '';
+$user_id = isset($_SESSION['id_user']) ? $_SESSION['id_user'] : '';
+
 $cek = mysqli_query($conn, "SELECT * FROM brankas");
 
 $brankas_id = $_GET['brankas'];
 $query = mysqli_query($conn, "SELECT bg_brankas FROM brankas WHERE id_brankas='$brankas_id'");
 $brankas = mysqli_fetch_assoc($query);
 $nama_brankas = $brankas['bg_brankas'];
+
+$no = 1;
+$lemari = $_GET['brankas'];
+$Pilih = "SELECT * FROM file WHERE id_brankas='$lemari' ORDER BY tg_upload ASC";
+$Query = mysqli_query($conn, $Pilih);
+
+$a = mysqli_query($conn, "SELECT * FROM brankas WHERE id_brankas='" . $_GET['brankas'] . "' ");
+$i = mysqli_fetch_object($a);
+
+
+$c = mysqli_query($conn, "SELECT * FROM brankas WHERE id_brankas='" . $_GET['brankas'] . "' ");
+$z = mysqli_fetch_object($c);
+
 
 if ($cek->num_rows == '') {
   $_SESSION['pesan_brankas_kosong'] = 'Tambahkan Brankas Dulu...!!!';
@@ -103,9 +118,7 @@ if ($cek->num_rows == '') {
                     </div>
                   </div>
                   <?php
-                  $c = mysqli_query($conn, "SELECT * FROM brankas WHERE id_brankas='" . $_GET['brankas'] . "' ");
-                  $i = mysqli_fetch_object($c);
-                  if ($role == $i->bg_brankas || $role == 'Admin') {
+                  if ($role == $z->bg_brankas || $role == 'Admin') {
                   ?>
                     <button type="button" class="btn btn-outline-info btn-sm mt-1" id="td_tfile" data-toggle="modal" data-target="#md_tfile" title="Klik untuk tambah file">
                       <i class="fas fa-plus"></i>
@@ -133,11 +146,9 @@ if ($cek->num_rows == '') {
                     </thead>
                     <tbody>
                       <?php
-                      $no = 1;
-                      $lemari = $_GET['brankas'];
-                      $Pilih = "SELECT * FROM file WHERE id_brankas='$lemari' ORDER BY tg_upload ASC";
-                      $Query = mysqli_query($conn, $Pilih);
-                      while ($data = mysqli_fetch_object($Query)) { ?>
+                      while ($data = mysqli_fetch_object($Query)) {
+                        $allowDownload = ($role == $i->bg_brankas || $role == 'Admin' || $data->iakses == $user_id);
+                      ?>
                         <tr>
                           <td align="center" width="5%"><?= $no++; ?></td>
                           <td><?= $data->nm_file; ?></td>
@@ -199,8 +210,6 @@ if ($cek->num_rows == '') {
                           </td>
                           <td>
                             <?php
-                            $a = mysqli_query($conn, "SELECT * FROM brankas WHERE id_brankas='" . $_GET['brankas'] . "' ");
-                            $i = mysqli_fetch_object($a);
                             if ($role == $i->bg_brankas || $role == 'Admin') {
                             ?>
                               <a href="#" class="btn btn-xs btn-outline-danger" onClick="konfirmasi('del_data.php?idfl=<?= $data->id_file; ?>');"><i class="fas fa-trash-alt"></i>
@@ -209,14 +218,14 @@ if ($cek->num_rows == '') {
                                 <i class="fas fa-pencil-alt"></i></a>
                             <?php
                             }
-                            $allowDownload = ($role == $i->bg_brankas || $role == 'Admin');
                             ?>
                             <a href="../dist/img/upload/<?= $data->file; ?>" class="btn btn-xs <?= !$allowDownload ? 'disabled ' : ''; ?> btn-outline-dark" target="_blank" download="<?= $data->nm_file; ?>"><i class="fas fa-download"></i></a>
-                            <a href="../dist/img/upload/<?= $data->file; ?>" class="btn btn-xs <?= !$allowDownload ? 'disabled ' : ''; ?> btn-outline-primary" target="_blank"><i class="fas fa-eye"></i></a>
+                            <a href="../dist/img/upload/<?= $data->file; ?>" class="btn btn-xs <?= !$allowDownload ? 'disabled ' : ''; ?> btn-outline-primary showfile" target="_blank"><i class="fas fa-eye"></i></a>
+
                             <?php
                             if (!$allowDownload) {
                             ?>
-                              <a href="#" id="td_pesan" data-toggle="modal" data-target="#md_pesan" data-id_files="<?= $data->id_file; ?>" class="btn btn-xs btn-outline-warning"><i class="fas fa-exchange-alt"></i> Ajukan Pinjam</a>
+                              <a href="#" id="pesan" name="pesan" data-toggle="modal" data-target="#md_tpesan" data-id_bo="<?= $data->id_file; ?>" class="btn btn-xs btn-outline-warning"><i class="fas fa-exchange-alt"></i> Ajukan Pinjam</a>
                             <?php
                             }
                             ?>
@@ -241,33 +250,18 @@ if ($cek->num_rows == '') {
   </div>
   <!-- /.content-wrapper -->
 
-  <!-- Modal untuk Melihat File -->
-  <div class="modal fade" id="viewFileModal" tabindex="-1" role="dialog" aria-labelledby="viewFileModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="viewFileModalLabel">Lihat File</h5>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-        <div class="modal-body">
-          <canvas id="pdfViewer" style="width: 100%; height: 100%;"></canvas>
-        </div>
-      </div>
-    </div>
-  </div>
+
 
 
   <?php
 
   include 'layout/foot.php';
   include 'modals/md_pesan.php';
+  include 'modals/md_logout.php';
   include 'modals/md_tfile.php';
   include 'modals/md_efile.php';
   include 'modals/md_eberkas.php';
   include 'modals/md_del_data.php';
-  include 'modals/md_logout.php';
 
   if (@$_SESSION['pesan_file_ada']) { ?>
     <script>
@@ -311,134 +305,8 @@ if ($cek->num_rows == '') {
   <?php unset($_SESSION['pesan_file_sukseshapus']);
   }
   ?>
-
-  <script>
-    $(document).on("click", ".btn-outline-primary", function(e) {
-      e.preventDefault();
-      var fileUrl = $(this).attr('href');
-      var ext = fileUrl.split('.').pop().toLowerCase();
-
-      if (ext === 'pdf') {
-        $("#imageViewer").hide();
-        $("#pdfViewer").show();
-        $("#viewFileModal").modal('show');
-        renderPDF(fileUrl);
-      } else if (['jpg', 'jpeg', 'png', 'bmp'].includes(ext)) {
-        $("#pdfViewer").hide();
-        $("#imageViewer").show();
-        $("#imageViewer").attr("src", fileUrl);
-        $("#viewFileModal").modal('show');
-      } else {
-        window.open(fileUrl, '_blank');
-      }
-    });
-
-    function renderPDF(url) {
-      var pdfjsLib = window['pdfjs-dist/build/pdf'];
-      pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.10.377/pdf.worker.min.js';
-
-      var loadingTask = pdfjsLib.getDocument(url);
-      loadingTask.promise.then(function(pdf) {
-        console.log('PDF loaded');
-
-        pdf.getPage(1).then(function(page) {
-          console.log('Page loaded');
-
-          var scale = 1.5;
-          var viewport = page.getViewport({
-            scale: scale
-          });
-
-          var canvas = document.getElementById('pdfViewer');
-          if (!canvas) {
-            console.error('Canvas not found!');
-            return;
-          }
-          var context = canvas.getContext('2d');
-          canvas.height = viewport.height;
-          canvas.width = viewport.width;
-
-          var renderContext = {
-            canvasContext: context,
-            viewport: viewport
-          };
-          var renderTask = page.render(renderContext);
-          renderTask.promise.then(function() {
-            console.log('Page rendered');
-          });
-        });
-      }, function(reason) {
-        console.error(reason);
-      });
-    }
-
-    $(document).on("click", "#td_pesan", function() {
-      console.log('kontol');
-
-    })
-
-    $(document).on("click", "#td_eberkas", function() {
-      let id_br = $(this).data('id_br');
-      let fl_br = $(this).data('fl_br');
-
-      $("#md_eberkas #id_file").val(id_br);
-      $("#md_eberkas #file").attr("src", "../dist/img/upload/" + fl_br);
-    })
-
-    $(document).ready(function(e) {
-      $('#form').on("submit", function(e) {
-        e.preventDefault();
-        $.ajax({
-          url: 'a_eberkas.php',
-          type: 'POST',
-          data: new FormData(this),
-          contentType: false,
-          cache: false,
-          processData: false,
-          success: function(msg) {
-            $('.table').html(msg);
-          }
-        });
-      });
-    })
-
-    $(document).on("click", "#td_efile", function() {
-      let id = $(this).data('id');
-      let br = $(this).data('br');
-      let nm = $(this).data('nm');
-      let tg = $(this).data('tg');
-      let vs = $(this).data('vs');
-      let pr = $(this).data('pr');
-      let ex = $(this).data('ex');
-
-      $("#md_efile #id_file").val(id);
-      $("#md_efile #id_brankas").val(br);
-      $("#md_efile #nm_file").val(nm);
-      $("#md_efile #tg_upload").val(tg);
-      $("#md_efile #visibilitas").val(vs);
-      $("#md_efile #produksi").val(pr);
-      $("#md_efile #expired").val(ex);
-    })
-
-
-    $(document).ready(function(e) {
-      $('#form').on("submit", function(e) {
-        e.preventDefault();
-        $.ajax({
-          url: 'a_efile.php',
-          type: 'POST',
-          data: new FormData(this),
-          contentType: false,
-          cache: false,
-          processData: false,
-          success: function(msg) {
-            $('.table').html(msg);
-          }
-        });
-      });
-    })
-    $(function() {
-      bsCustomFileInput.init();
-    });
-  </script>
 <?php } ?>
+
+<script>
+  console.log(<?= json_encode($user_id); ?>);
+</script>

@@ -9,6 +9,8 @@ $file = mysqli_real_escape_string($conn, $_POST['file']);
 $produksi = mysqli_real_escape_string($conn, $_POST['produksi']);
 $expired = mysqli_real_escape_string($conn, $_POST['expired']);
 
+$iakses = null;
+
 $cek = mysqli_query($conn, "SELECT nm_file FROM file WHERE nm_file='$nm_file'");
 
 if ($cek->num_rows > 0) {
@@ -36,7 +38,8 @@ if ($cek->num_rows > 0) {
 	'" . $tg_upload . "',
 	'" . $visibilitas . "',
 	'" . $produksi . "',
-	'" . $expired . "'
+	'" . $expired . "',
+	'" . $iakses . "'
 	)");
 
 	if ($tambah) {

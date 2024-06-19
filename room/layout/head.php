@@ -4,11 +4,11 @@ error_reporting(0);
 include '../connect/database.php';
 $current_file = basename($_SERVER['PHP_SELF']);
 $role = isset($_SESSION['rl_user']) ? $_SESSION['rl_user'] : '';
-$penerima = $_SESSION['nm_user'];
+
 
 $query_count = "SELECT COUNT(*) AS count_unread 
                 FROM pesan 
-                WHERE status = 0 AND penerima = '$penerima'";
+                WHERE status = 0 AND penerima = '$role'";
 $result_count = mysqli_query($conn, $query_count);
 $row_count = mysqli_fetch_assoc($result_count);
 $jumlah_pesan = $row_count['count_unread'];
@@ -75,12 +75,13 @@ if ($_SESSION['start_login'] != true) {
             <?php
             $query = "SELECT * 
             FROM pesan 
-            WHERE status = 0 AND penerima = '$penerima'
+            WHERE status = 0 AND penerima = '$role'
             ORDER BY tgl DESC
             LIMIT 5";
             $pesan = mysqli_query($conn, $query);
             if (mysqli_num_rows($pesan) > 0) {
               while ($row = mysqli_fetch_assoc($pesan)) {
+                $id = $row['id'];
                 $pengirim = $row['pengirim'];
                 $isi_pesan = $row['pesan'];
                 $tanggal = $row['tgl'];
@@ -93,14 +94,6 @@ if ($_SESSION['start_login'] != true) {
                         <span class="float-right text-sm"><i class="far fa-clock mr-1"></i> <?= $tanggal ?></span>
                       </h3>
                       <p class="text-sm"><?= $isi_pesan ?></p>
-                      <p class="text-sm text-muted">
-                        <button type="button" class="btn btn-success btn-xs mr-2">
-                          <i class="fas fa-check"></i> Terima
-                        </button>
-                        <button type="button" class="btn btn-danger btn-xs">
-                          <i class="fas fa-times"></i> Tolak
-                        </button>
-                      </p>
                     </div>
                   </div>
                 </a>
@@ -201,6 +194,14 @@ if ($_SESSION['start_login'] != true) {
                   </a>
                 </li>
               </ul>
+            </li>
+            <li class="nav-item">
+              <a href="data-pengajuan.php" class="nav-link  <?php echo ($current_file == 'data-pengajuan.php') ? 'active' : ''; ?>">
+                <i class="nav-icon fas fa-book"></i>
+                <p>
+                  Data Pengajuan
+                </p>
+              </a>
             </li>
             <?php
             if ($role == 'Admin') {
