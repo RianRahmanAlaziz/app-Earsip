@@ -86,7 +86,7 @@ if ($_SESSION['start_login'] != true) {
                 $isi_pesan = $row['pesan'];
                 $tanggal = $row['tgl'];
             ?>
-                <a href="#" class="dropdown-item">
+                <a href="data-pengajuan.php" class="dropdown-item">
                   <div class="media">
                     <div class="media-body">
                       <h3 class="dropdown-item-title">
@@ -158,7 +158,7 @@ if ($_SESSION['start_login'] != true) {
               <a href="#" class="nav-link ">
                 <i class="nav-icon fas fa-edit"></i>
                 <p>
-                  Berkas
+                  Brankas
                   <i class="fas fa-angle-left right"></i>
                 </p>
               </a>
